@@ -13,4 +13,4 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = 'lsposed_build_project'
-include ':app'  # 모듈 이름. 'app'이 맞는지 build.gradle 위치로 확인. 없으면 ':library'나 실제 모듈명으로 변경
+include ':app'  
