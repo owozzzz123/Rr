@@ -21,18 +21,23 @@ jobs:
           distribution: 'temurin'
           cache: gradle
 
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
+      - name: Install Gradle Wrapper (if missing)
+        run: |
+          if [ ! -f gradlew ]; then
+            curl -sL https://services.gradle.org/distributions/gradle-8.10-bin.zip -o gradle.zip
+            unzip -q gradle.zip
+            mv gradle-8.10/bin/gradlew .
+            chmod +x gradlew
+            rm -rf gradle.zip gradle-8.10
+          else
+            chmod +x gradlew
+          fi
 
       - name: Build Debug APK
         run: ./gradlew assembleDebug
 
       - name: Build Release APK
         run: ./gradlew assembleRelease
-        # Release 빌드 시 signing 필요: 아래 secrets 사용 예시 추가 가능
-
-      - name: Build AAB
-        run: ./gradlew bundleRelease
 
       - name: Upload Debug APK Artifact
         uses: actions/upload-artifact@v4
@@ -44,10 +49,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: app-release
-          path: app/build/outputs/apk/release/app-release-unsigned.apk  # signed 하려면 keystore 설정
-
-      - name: Upload AAB Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: app-aab
-          path: app/build/outputs/bundle/release/app-release.aab
+          path: app/build/outputs/apk/release/app-release-unsigned.apk
