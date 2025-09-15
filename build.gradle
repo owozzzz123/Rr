@@ -1,13 +1,12 @@
-plugins {
-    id 'com.android.library'
-    id 'java'
-}
-
+apply plugin: 'com.android.application'
 android {
-    compileSdkVersion 34
+    compileSdk 33
     defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 34
+        applicationId "com.example.lsposed"
+        minSdk 21
+        targetSdk 33
+        versionCode 1
+        versionName "1.0"
     }
     buildTypes {
         release {
@@ -15,8 +14,7 @@ android {
         }
     }
 }
-
 dependencies {
-    compileOnly 'de.robv.android.xposed:api:82' // LSPosed/Xposed API
-    // 추가 의존성 필요 시 여기에
+    implementation 'de.robv.android.xposed:api:82'  // Xposed API, 버전 확인 필요
+    implementation 'androidx.appcompat:appcompat:1.6.1'
 }
